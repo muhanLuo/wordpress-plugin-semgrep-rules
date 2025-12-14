@@ -1,0 +1,27 @@
+rules:
+  - id: wp-missing-direct-access-check
+    languages:
+      - php
+    severity: WARNING
+    message: This PHP file did not include a check for direct access. This means that a user could navigate to this file directly and access it, which can lead to server-side errors and data leaks.
+    patterns:
+      - pattern-regex: (?s)\A.*\Z
+      - pattern-not-regex: 
+          "defined\\(.*(ABSPATH|WPINC|WP_CONTENT_DIR|WP_PLUGIN_DIR).*\\)"
+    metadata:
+      category: security
+      confidence: MEDIUM
+      likelihood: MEDIUM
+      impact: MEDIUM
+      subcategory:
+        - audit
+      technology:
+        - Wordpress Plugins
+      references:
+        - https://notesontech.com/preventing-direct-access-to-php-files-in-wordpress/
+      owasp:
+        - A01:2021 - Broken Access Control
+      cwe:
+        - "CWE-285: Improper Authorization"
+      vulnerability_class:
+        - Improper Authorization
