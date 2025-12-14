@@ -24,7 +24,7 @@ Through Secure Coding Best Practices](https://www.wordfence.com/wp-content/uploa
     - Finds callback functions that don't use ``wp_verify_nonce()``, ``check_ajax_referer()``, or ``check_admin_referer()`` in their function body. These rules only focus on callbacks called by ``add_action()`` and only if the hook name passes the following regex ``(wp_ajax_.*|admin_init|admin_post_.*|admin_action_.*|profile_update|personal_options_update|admin_menu)``.
     - More Info: [(Pages 12-14 of this document)](https://www.wordfence.com/wp-content/uploads/2021/07/Common-WordPress-Vulnerabilities-and-Prevention-Through-Secure-Coding-Best-Practices.pdf)
 
-**Misc**
+### Misc
 
 1. **``wp-missing-direct-access-check``**
     - Finds files which do not prevent direct access. Checking for direct access usually involves verifying that a constant like ``ABSPATH`` or ``WPINC`` exists.
