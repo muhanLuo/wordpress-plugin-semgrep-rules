@@ -1,5 +1,5 @@
 rules:
-  - id: wp-hook-missing-csrf-protection-class-method
+  - id: wp-hook-missing-csrf-protection-functions
     languages:
       - php
     severity: MEDIUM
@@ -8,59 +8,75 @@ rules:
       hooks usually associated with high-severity access control vulnerabilities
       are marked.
     patterns:
-      - pattern-either:
-          - pattern: add_action("$HOOK", [$this, "$FUNCTION"], ...);
-          - pattern: add_action("$HOOK", [&$this, "$FUNCTION"], ...);
-      
-      # Removes all callbacks where wp_verify_nonce(), check_ajax_referer(), or check_admin_referer() are within an if-statement. This means there's CSRF checks in-place.
+      - pattern: add_action("$HOOK", "$FUNCTION", ...);
       - pattern-not:
           patterns:
             - pattern-inside: |
-                class $C {
+                ...
+                add_action("$HOOK", "$FUNCTION", ...);
+                ...
+                function $FUNCTION(...) {
                   ...
-                  function $F(...) {
-                    ...
-                    add_action("$HOOK", [$THIS, "$FUNCTION"], ...);
+                  if (<... $WP_VERIFY(...) ...>)
+                  {
                     ...
                   }
-                  ...
-                  function $FUNCTION(...) {
-                    ...
-                    if (<... $WP_VERIFY(...) ...>) {
-                      ...
-                    }
-                    else { ... }
-                    ...
-                  }
+                  else { ... }
                   ...
                 }
+                ...
             - metavariable-regex:
                 metavariable: $WP_VERIFY
                 regex: (wp_verify_nonce|check_ajax_referer|check_admin_referer)
-
-      # Removes all callbacks where check_ajax_referer() or check_admin_referer() are used. This means there's CSRF checks in-place.
       - pattern-not:
           patterns:
             - pattern-inside: |
-                class $C {
+                ...
+                function $FUNCTION(...) {
                   ...
-                  function $F(...) {
-                    ...
-                    add_action("$HOOK", [$THIS, "$FUNCTION"], ...);
+                  if (<... $WP_VERIFY(...) ...>)
+                  {
                     ...
                   }
-                  ...
-                  function $FUNCTION(...) {
-                    ...
-                    $CHECK_AJAX(...);
-                    ...
-                  }
+                  else { ... }
                   ...
                 }
+                ...
+                add_action("$HOOK", "$FUNCTION", ...);
+                ...
+            - metavariable-regex:
+                metavariable: $WP_VERIFY
+                regex: (wp_verify_nonce|check_ajax_referer|check_admin_referer)
+      - pattern-not:
+          patterns:
+            - pattern-inside: |
+                ...
+                function $FUNCTION(...) {
+                  ...
+                  $CHECK_AJAX(...);
+                  ...
+                }
+                ...
+                add_action("$HOOK", "$FUNCTION", ...);
+                ...
             - metavariable-regex:
                 metavariable: $CHECK_AJAX
                 regex: (check_ajax_referer|check_admin_referer)
-
+      - pattern-not:
+          patterns:
+            - pattern-inside: |
+                ...
+                add_action("$HOOK", "$FUNCTION", ...);
+                ...
+                function $FUNCTION(...) {
+                  ...
+                  $CHECK_AJAX(...);
+                  ...
+                }
+                ...
+            - metavariable-regex:
+                metavariable: $CHECK_AJAX
+                regex: (check_ajax_referer|check_admin_referer)
       - metavariable-regex:
           metavariable: $HOOK
           regex: (wp_ajax_.*|admin_init|admin_post_.*|admin_action_.*|profile_update|personal_options_update|admin_menu)
