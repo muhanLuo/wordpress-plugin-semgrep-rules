@@ -1,5 +1,5 @@
 rules:
-  - id: wp-hook-missing-auth-class-method
+  - id: wp-hook-missing-auth-functions
     languages:
       - php
     severity: INFO
@@ -8,28 +8,37 @@ rules:
       hooks usually associated with high-severity access control vulnerabilities
       are marked.
     patterns:
-      - pattern-either:
-          - pattern: add_action("$HOOK", [$this, "$FUNCTION"], ...);
-          - pattern: add_action("$HOOK", [&$this, "$FUNCTION"], ...);
-      - pattern-not-inside: |
-          class $C {
-            ...
-            function $F(...) {
-              ...
-              add_action("$HOOK", [$THIS, "$FUNCTION"], ...);
-              ...
-            }
-            ...
-            function $FUNCTION(...) {
-              ...
-              if (<... current_user_can(...) ...>) {
+      - pattern: add_action("$HOOK", "$FUNCTION", ...);
+      - pattern-not:
+          pattern-either:
+            - pattern-inside: |
                 ...
-              }
-              else { ... }
-              ...
-            }
-            ...
-          }
+                add_action("$HOOK", "$FUNCTION", ...);
+                ...
+                function $FUNCTION(...) {
+                  ...
+                  if (<... current_user_can(...) ...>)
+                  {
+                    ...
+                  }
+                  else { ... }
+                  ...
+                }
+                ...
+            - pattern-inside: |
+                ...
+                function $FUNCTION(...) {
+                  ...
+                  if (<... current_user_can(...) ...>)
+                  {
+                    ...
+                  }
+                  else { ... }
+                  ...
+                }
+                ...
+                add_action("$HOOK", "$FUNCTION", ...);
+                ...
       - metavariable-regex:
           metavariable: $HOOK
           regex: (wp_ajax_.*|admin_init|admin_post_.*|admin_action_.*|profile_update|personal_options_update|admin_menu)
