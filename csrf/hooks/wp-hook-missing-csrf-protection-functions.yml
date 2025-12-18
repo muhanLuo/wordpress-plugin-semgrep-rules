@@ -1,0 +1,100 @@
+rules:
+  - id: wp-hook-missing-csrf-protection-functions
+    languages:
+      - php
+    severity: MEDIUM
+    message: These hooks did not include a corresponding wp_verify_nonce()/check_ajax_referer()/check_admin_referer() for their
+      callback, which might indicate a missing authorization vulnerability. Only
+      hooks usually associated with high-severity access control vulnerabilities
+      are marked.
+    patterns:
+      - pattern: add_action("$HOOK", "$FUNCTION", ...);
+      - pattern-not:
+          patterns:
+            - pattern-inside: |
+                ...
+                add_action("$HOOK", "$FUNCTION", ...);
+                ...
+                function $FUNCTION(...) {
+                  ...
+                  if (<... $WP_VERIFY(...) ...>)
+                  {
+                    ...
+                  }
+                  else { ... }
+                  ...
+                }
+                ...
+            - metavariable-regex:
+                metavariable: $WP_VERIFY
+                regex: (wp_verify_nonce|check_ajax_referer|check_admin_referer)
+      - pattern-not:
+          patterns:
+            - pattern-inside: |
+                ...
+                function $FUNCTION(...) {
+                  ...
+                  if (<... $WP_VERIFY(...) ...>)
+                  {
+                    ...
+                  }
+                  else { ... }
+                  ...
+                }
+                ...
+                add_action("$HOOK", "$FUNCTION", ...);
+                ...
+            - metavariable-regex:
+                metavariable: $WP_VERIFY
+                regex: (wp_verify_nonce|check_ajax_referer|check_admin_referer)
+      - pattern-not:
+          patterns:
+            - pattern-inside: |
+                ...
+                function $FUNCTION(...) {
+                  ...
+                  $CHECK_AJAX(...);
+                  ...
+                }
+                ...
+                add_action("$HOOK", "$FUNCTION", ...);
+                ...
+            - metavariable-regex:
+                metavariable: $CHECK_AJAX
+                regex: (check_ajax_referer|check_admin_referer)
+      - pattern-not:
+          patterns:
+            - pattern-inside: |
+                ...
+                add_action("$HOOK", "$FUNCTION", ...);
+                ...
+                function $FUNCTION(...) {
+                  ...
+                  $CHECK_AJAX(...);
+                  ...
+                }
+                ...
+            - metavariable-regex:
+                metavariable: $CHECK_AJAX
+                regex: (check_ajax_referer|check_admin_referer)
+      - metavariable-regex:
+          metavariable: $HOOK
+          regex: (wp_ajax_.*|admin_init|admin_post_.*|admin_action_.*|profile_update|personal_options_update|admin_menu)
+    metadata:
+      category: security
+      confidence: MEDIUM
+      likelihood: MEDIUM
+      impact: HIGH
+      subcategory:
+        - audit
+      technology:
+        - Wordpress Plugins
+      references:
+        - (Pages 12-14)
+          https://www.wordfence.com/wp-content/uploads/2021/07/Common-WordPress-Vulnerabilities-and-Prevention-Through-Secure-Coding-Best-Practices.pdf
+      owasp:
+        - A01:2021 - Broken Access Control
+      cwe:
+        - "CWE-285: Improper Authorization"
+      vulnerability_class:
+        - Improper Authorization
