@@ -1,0 +1,33 @@
+rules:
+  - id: insecure-wp-kses-protocols
+    languages:
+      - php
+    severity: WARNING
+    message: Insecure usage of the wp_kses() function. The "javascript:" protcol is allowed, which may allow for the exploitation of XSS.
+    patterns:
+      - pattern-either:
+          # Attributes are passed through a variable
+          - pattern: >
+              $ALLOWED_PROTOCOLS = [..., "javascript", ...];
+              ...
+              wp_kses(..., ...,$ALLOWED_PROTOCOLS);
+          # Attributes are passed directly in the argument
+          - pattern: >
+              wp_kses(..., ..., [..., "javascript", ...]);
+    metadata:
+      category: security
+      confidence: MEDIUM
+      likelihood: MEDIUM
+      impact: MEDIUM
+      subcategory:
+        - audit
+      technology:
+        - Wordpress Plugins
+      references:
+        - https://wp-kama.com/function/wp_kses
+      owasp:
+        - A7:2017-Cross-Site Scripting (XSS)
+      cwe:
+        - "CWE-79: Improper Neutralization of Input ('Cross-site Scripting')"
+      vulnerability_class:
+        - Cross-Site Scripting
