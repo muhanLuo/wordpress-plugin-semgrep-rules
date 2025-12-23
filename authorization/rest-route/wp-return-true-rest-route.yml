@@ -2,12 +2,14 @@ rules:
   - id: wp-return-true-rest-route
     languages:
       - php
-    severity: ERROR
+    severity: INFO
     message: These API endpoints have their 'permission_callback' set to
       '__return_true', meaning that there's no authorization.
     pattern-either:
+      # Single API Registration
       - pattern: register_rest_route(..., ..., [..., 'permission_callback' =>
           '__return_true' , ...], ...)
+      # Multi-API Registration
       - pattern: |
           register_rest_route(..., ..., [ ..., 
           [..., 'permission_callback' =>

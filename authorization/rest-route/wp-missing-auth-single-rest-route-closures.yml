@@ -1,0 +1,45 @@
+rules:
+  - id: wp-missing-auth-single-rest-route-closures
+    languages:
+      - php
+    severity: INFO
+    message: Usage of register_rest_route() where 'permission_callback' is set to a function which does not use current_user_can()
+    patterns:
+      - pattern: register_rest_route(..., ..., [..., 'permission_callback' =>
+          function(...) { ... } , ...], ...)
+      - pattern-not: >-
+          register_rest_route(..., ..., [..., 'permission_callback' =>
+          function(...) {
+             ...
+             return current_user_can(...);
+             ... 
+             } , ...], ...)
+      - pattern-not: >-
+          register_rest_route(..., ..., [..., 'permission_callback' =>
+          function(...) {
+             ...
+             if (<... current_user_can(...) ...>)
+             {
+              ...
+             }
+             else { ... }
+             ... 
+             } , ...], ...)
+    metadata:
+      category: security
+      confidence: MEDIUM
+      likelihood: MEDIUM
+      impact: HIGH
+      subcategory:
+        - audit
+      technology:
+        - Wordpress Plugins
+      references:
+        - (Page 8)
+          https://www.wordfence.com/wp-content/uploads/2021/07/Common-WordPress-Vulnerabilities-and-Prevention-Through-Secure-Coding-Best-Practices.pdf
+      owasp:
+        - A01:2021 - Broken Access Control
+      cwe:
+        - "CWE-285: Improper Authorization"
+      vulnerability_class:
+        - Improper Authorization
