@@ -3,14 +3,15 @@ rules:
     languages:
       - php
     severity: INFO
-    message: These hooks did not have a corresponding current_user_can() for their
+    message: >-
+      These hooks did not have a corresponding current_user_can() for their
       callback, which might indicate a missing authorization vulnerability. Only
       hooks usually associated with high-severity access control vulnerabilities
       are marked.
     patterns:
       - pattern-either:
-          - pattern: add_action("$HOOK", [$this, "$FUNCTION"], ...);
-          - pattern: add_action("$HOOK", [&$this, "$FUNCTION"], ...);
+          - pattern: 'add_action("$HOOK", [$this, "$FUNCTION"], ...);'
+          - pattern: 'add_action("$HOOK", [&$this, "$FUNCTION"], ...);'
       - pattern-not-inside: |
           class $C {
             ...
@@ -30,9 +31,13 @@ rules:
             }
             ...
           }
+      #- metavariable-regex:
+      #    metavariable: $HOOK
+      #    regex: >-
+      #      (wp_ajax_.*|admin_init|admin_post_.*|admin_action_.*|profile_update|personal_options_update|admin_menu)
       - metavariable-regex:
           metavariable: $HOOK
-          regex: (wp_ajax_.*|admin_init|admin_post_.*|admin_action_.*|profile_update|personal_options_update|admin_menu)
+          regex: (wp_ajax_.*|admin_post_.*|admin_action_.*|profile_update|personal_options_update)
     metadata:
       category: security
       confidence: MEDIUM
@@ -43,11 +48,12 @@ rules:
       technology:
         - Wordpress Plugins
       references:
-        - (Pages 5-11)
+        - >-
+          (Pages 5-11)
           https://www.wordfence.com/wp-content/uploads/2021/07/Common-WordPress-Vulnerabilities-and-Prevention-Through-Secure-Coding-Best-Practices.pdf
       owasp:
-        - A01:2021 - Broken Access Control
+        - 'A01:2021 - Broken Access Control'
       cwe:
-        - "CWE-285: Improper Authorization"
+        - 'CWE-285: Improper Authorization'
       vulnerability_class:
         - Improper Authorization

@@ -33,7 +33,7 @@ class ClassTests {
         add_action( 'profile_update', [ $this, 'has_current_user_can' ], 2);
 
 		// ruleid: wp-hook-missing-auth-class-method
-        add_action( 'admin_init', array(&$this, 'after_no_current_user_can') );
+        add_action( 'admin_action_read', array(&$this, 'after_no_current_user_can') );
 
 		// ok: wp-hook-missing-auth-class-method
 		add_action( 'admin_action_write', [ $this, 'after_current_user_can' ], 1, 2);

@@ -38,7 +38,7 @@ function no_auth_before() {
 add_action( 'wp_ajax_nopriv_test1', 'auth_before', 5, 1);
 
 // ok: wp-hook-missing-auth-functions
-add_action( 'admin_init', 'auth_before2');
+add_action( 'wp_ajax_test5', 'auth_before2');
 
 // ruleid: wp-hook-missing-auth-functions
 add_action( 'wp_ajax_test2', 'no_auth_before', 2);

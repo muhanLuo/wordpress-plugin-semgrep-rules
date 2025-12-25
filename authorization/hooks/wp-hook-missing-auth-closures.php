@@ -13,7 +13,7 @@ add_action("wp_ajax_action_performed", function($user) {
 }, 5, 1);
 
 // ruleid: wp-hook-missing-auth-closures
-add_action("admin_init", function() {
+add_action("wp_ajax_do_stuff", function() {
 	echo "HELLO";
     if (blabla("123") or 5 + 5 == 1) {
         return 1;

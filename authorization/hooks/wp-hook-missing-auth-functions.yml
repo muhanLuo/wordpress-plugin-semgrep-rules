@@ -39,9 +39,12 @@ rules:
                 ...
                 add_action("$HOOK", "$FUNCTION", ...);
                 ...
+      #- metavariable-regex:
+      #    metavariable: $HOOK
+      #    regex: (wp_ajax_.*|admin_init|admin_post_.*|admin_action_.*|profile_update|personal_options_update|admin_menu)
       - metavariable-regex:
           metavariable: $HOOK
-          regex: (wp_ajax_.*|admin_init|admin_post_.*|admin_action_.*|profile_update|personal_options_update|admin_menu)
+          regex: (wp_ajax_.*|admin_post_.*|admin_action_.*|profile_update|personal_options_update)
     metadata:
       category: security
       confidence: MEDIUM
