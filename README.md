@@ -2,7 +2,7 @@
 
 This is a list of Semgrep rules I've personally written to help me find security vulnerabilities in WordPress Plugins. 
 
-*Note: When running these rules in Semgrep, you may want to set a longer timeout using the following argument ``--timeout 30``. Some of these rules do take a bit longer to run and can sometimes timeout on larger plugins.*
+*Note: When running these rules in Semgrep, you may want to set a longer timeout using the following argument ``--timeout 60``. Some of these rules do take a bit longer to run and can sometimes timeout on larger plugins.*
 
 A big thanks to WordFence for providing so much free educational material on WordPress plugin security. Many of these rules are based off the following document they created: [Common WordPress Vulnerabilities and Prevention
 Through Secure Coding Best Practices](https://www.wordfence.com/wp-content/uploads/2021/07/Common-WordPress-Vulnerabilities-and-Prevention-Through-Secure-Coding-Best-Practices.pdf)
@@ -30,8 +30,3 @@ Through Secure Coding Best Practices](https://www.wordfence.com/wp-content/uploa
     - Finds files which do not prevent direct access. Checking for direct access usually involves verifying that a constant like ``ABSPATH`` or ``WPINC`` exists.
     - More info: [Notes on Tech](https://notesontech.com/preventing-direct-access-to-php-files-in-wordpress/)
 
-## Update History 
-
-### 12/13/2025
-
-- Created repository and added rules
