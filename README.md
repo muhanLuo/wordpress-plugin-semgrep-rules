@@ -11,7 +11,7 @@ Through Secure Coding Best Practices](https://www.wordfence.com/wp-content/uploa
 
 ### Missing Authorization
 
-1. **``wp-hook-missing-auth-class-method``, ``wp-hook-missing-auth-closures``, and ``wp-hook-missing-auth-functions``**
+1. **``wp-hook-missing-auth-*``**
     - Finds callback functions that don't use ``current_user_can()`` in their function body. These rules only focus on callbacks called by ``add_action()`` and only if the hook name passes the following regex ``(wp_ajax_.*|admin_init|admin_post_.*|admin_action_.*|profile_update|personal_options_update|admin_menu)``.
     - More Info: [(Pages 5-11 of this document)](https://www.wordfence.com/wp-content/uploads/2021/07/Common-WordPress-Vulnerabilities-and-Prevention-Through-Secure-Coding-Best-Practices.pdf)
 2. **``wp-return-true-register-rest-route``**
@@ -20,9 +20,15 @@ Through Secure Coding Best Practices](https://www.wordfence.com/wp-content/uploa
 
 ### Cross-Site Request Forgery (CSRF)
 
-1. **``wp-hook-missing-csrf-protection-class-method``, ``wp-hook-missing-csrf-protection-closures``, ``wp-hook-missing-csrf-protection-functions``**:
+1. **``wp-hook-missing-csrf-protection-*``**
     - Finds callback functions that don't use ``wp_verify_nonce()``, ``check_ajax_referer()``, or ``check_admin_referer()`` in their function body. These rules only focus on callbacks called by ``add_action()`` and only if the hook name passes the following regex ``(wp_ajax_.*|admin_init|admin_post_.*|admin_action_.*|profile_update|personal_options_update|admin_menu)``.
     - More Info: [(Pages 12-14 of this document)](https://www.wordfence.com/wp-content/uploads/2021/07/Common-WordPress-Vulnerabilities-and-Prevention-Through-Secure-Coding-Best-Practices.pdf)
+
+### Cross-site Scripting (XSS)
+
+1. **``insecure-wp-kses-*``**
+    - Finds insecure usages of wp_kses(), which is an HTML purifier.
+    - More info: [WP-KAMA](https://wp-kama.com/function/wp_kses)
 
 ### Misc
 

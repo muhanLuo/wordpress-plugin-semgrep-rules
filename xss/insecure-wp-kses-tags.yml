@@ -1,0 +1,37 @@
+rules:
+  - id: insecure-wp-kses-tags
+    languages:
+      - php
+    severity: WARNING
+    message: Insecure usage of the wp_kses() function. Certain HTML tags are allowed
+      which may lead to security issues such as XSS, clickjacking, or other
+      client-side security issues.
+    patterns:
+      - pattern-either:
+          - pattern: |-
+              $ALLOWED_HTML = [..., "$HTML_TAG" => [...], ...]; 
+              ...
+              wp_kses(..., $ALLOWED_HTML, ...);
+          - pattern: wp_kses(..., [..., "$HTML_TAG" => [...], ...] , ...);
+      - metavariable-regex:
+          metavariable: $HTML_TAG
+          regex: (param|base|object|iframe|script|embed|meta|link|animate|color-profile|cursor|discard|font-.*|foreignobject|hatch.*|mesh.*|missing-glyph|set|solidcolor|unknown|use|maction|maligngroup|malignmark|mlongdiv|mscarries|mscarry|msgroup|mstack|msline|msrow|semantics|annotation|annotation-xml|mprescripts|none)
+    metadata:
+      category: security
+      confidence: MEDIUM
+      likelihood: MEDIUM
+      impact: MEDIUM
+      subcategory:
+        - audit
+      technology:
+        - Wordpress Plugins
+      references:
+        - https://github.com/cure53/DOMPurify/blob/4cd2f443a06106ed6affe0d57af07387305147e0/src/tags.ts
+        - https://portswigger.net/web-security/cross-site-scripting/cheat-sheet
+        - https://wp-kama.com/function/wp_kses
+      owasp:
+        - A7:2017-Cross-Site Scripting (XSS)
+      cwe:
+        - "CWE-79: Improper Neutralization of Input ('Cross-site Scripting')"
+      vulnerability_class:
+        - Cross-Site Scripting

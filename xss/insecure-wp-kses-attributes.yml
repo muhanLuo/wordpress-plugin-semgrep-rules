@@ -1,0 +1,34 @@
+rules:
+  - id: insecure-wp-kses-attributes
+    languages:
+      - php
+    severity: WARNING
+    message: Insecure usage of wp_kses(). Certain attributes are allowed which could lead to client-side security issues.
+    patterns:
+      - pattern-either:
+          - pattern: >
+              $ALLOWED_HTML = [..., "$HTML_TAG" => [..., '$ATTRIBUTE' => $VAL,
+              ...], ...]; ... wp_kses(..., $ALLOWED_HTML, ...);
+          - pattern: >
+              wp_kses(..., [..., "$HTML_TAG" => [..., '$ATTRIBUTE' => $VAL,
+              ...], ...] , ...);
+      - metavariable-regex:
+          metavariable: $ATTRIBUTE
+          regex: (on.*|accept-charset|async|autofocus|content.*|charset|data.*|defer|dirname|form.*|http-equiv|sandbox|srcdoc|calcMode|crossorigin|data-*|decoding|dominant-baseline|fetchpriority|fr|from|glyph-orientation-horizontal|glyph-orientation-vertical|hreflang|limitingConeAngle|ping|pointer-events|pointsAt.|referrerPolicy|requiredExtensions|requiredFeatures|side|spacing|text-overflow|to|unicode-bidi|vector-effect|white-space|xlink:.*|xml:lang|xml:space|actiontype|background|color|columnalign|columnspacing|fontfamily|fontsize|fontstyle|fontweight|framespacing|superscriptshift)
+    metadata:
+      category: security
+      confidence: MEDIUM
+      likelihood: MEDIUM
+      impact: MEDIUM
+      subcategory:
+        - audit
+      technology:
+        - Wordpress Plugins
+      references:
+        - https://github.com/cure53/DOMPurify/blob/main/src/attrs.ts
+      owasp:
+        - A7:2017-Cross-Site Scripting (XSS)
+      cwe:
+        - "CWE-79: Improper Neutralization of Input ('Cross-site Scripting')"
+      vulnerability_class:
+        - Cross-Site Scripting
