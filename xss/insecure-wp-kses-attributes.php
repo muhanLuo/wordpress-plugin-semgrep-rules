@@ -61,4 +61,17 @@ add_action('wp_footer', 'plugin_footer');
 // ok: insecure-wp-kses-attributes
 echo wp_kses($string, array( 'a' => array ('href' => array())));
 
+/*
+Interesting point: wp_kses() doesn't seem to automatically remove the "javascript:" protocol from "xlink:href" 
+"javascript:" is usually automatically removed from most attributes
+*/
+function plugin_footer() {
+        $string = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><a xlink:href="javascript:alert(document.domain)">Hello<circle r="45" cx="100" cy="100" fill="red" /></a></svg>';
+		// ruleid: insecure-wp-kses-attributes
+        echo wp_kses($string, array( 'a' => array ('src' => array(), 'xlink:href' => array()), 'svg' => array(), 'circle' => array('r' => array(), 'cx' => array(), 'cy' => array(), 'fill' => array())));
+        echo $string;
+}
+
+add_action('wp_footer', 'plugin_footer');
+
 ?>

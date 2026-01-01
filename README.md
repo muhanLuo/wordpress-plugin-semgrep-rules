@@ -2,7 +2,7 @@
 
 This is a list of Semgrep rules I've personally written to help me find security vulnerabilities in WordPress Plugins. 
 
-*Note: When running these rules in Semgrep, you may want to set a longer timeout using the following argument ``--timeout 60``. Some of these rules do take a bit longer to run and can sometimes timeout on larger plugins.*
+*Note: When running these rules in Semgrep, you may want to set a longer timeout using the following argument ``--timeout 90``. Some of these rules do take a bit longer to run and can sometimes timeout on larger plugins.*
 
 A big thanks to WordFence for providing so much free educational material on WordPress plugin security. Many of these rules are based off the following document they created: [Common WordPress Vulnerabilities and Prevention
 Through Secure Coding Best Practices](https://www.wordfence.com/wp-content/uploads/2021/07/Common-WordPress-Vulnerabilities-and-Prevention-Through-Secure-Coding-Best-Practices.pdf)
@@ -27,7 +27,7 @@ Through Secure Coding Best Practices](https://www.wordfence.com/wp-content/uploa
 ### Cross-site Scripting (XSS)
 
 1. **``insecure-wp-kses-*``**
-    - Finds insecure usages of wp_kses(), which is an HTML purifier.
+    - Finds insecure usages of ``wp_kses()``, which is an HTML purifier.
     - More info: [WP-KAMA](https://wp-kama.com/function/wp_kses)
 
 ### Misc

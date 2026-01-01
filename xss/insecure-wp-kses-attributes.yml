@@ -14,7 +14,7 @@ rules:
               ...], ...] , ...);
       - metavariable-regex:
           metavariable: $ATTRIBUTE
-          regex: (on.*|accept-charset|async|autofocus|content.*|charset|data.*|defer|dirname|form.*|http-equiv|sandbox|srcdoc|calcMode|crossorigin|data-*|decoding|dominant-baseline|fetchpriority|fr|from|glyph-orientation-horizontal|glyph-orientation-vertical|hreflang|limitingConeAngle|ping|pointer-events|pointsAt.|referrerPolicy|requiredExtensions|requiredFeatures|side|spacing|text-overflow|to|unicode-bidi|vector-effect|white-space|xlink:.*|xml:lang|xml:space|actiontype|background|color|columnalign|columnspacing|fontfamily|fontsize|fontstyle|fontweight|framespacing|superscriptshift)
+          regex: (on.*|content|charset|http-equiv|from|to|xlink:href)
     metadata:
       category: security
       confidence: MEDIUM
@@ -26,6 +26,8 @@ rules:
         - Wordpress Plugins
       references:
         - https://github.com/cure53/DOMPurify/blob/main/src/attrs.ts
+        - https://portswigger.net/web-security/cross-site-scripting/cheat-sheet
+        - https://wp-kama.com/function/wp_kses
       owasp:
         - A7:2017-Cross-Site Scripting (XSS)
       cwe:

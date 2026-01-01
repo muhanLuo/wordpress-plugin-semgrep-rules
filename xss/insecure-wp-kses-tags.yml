@@ -4,8 +4,7 @@ rules:
       - php
     severity: WARNING
     message: Insecure usage of the wp_kses() function. Certain HTML tags are allowed
-      which may lead to security issues such as XSS, clickjacking, or other
-      client-side security issues.
+      which may lead to security issues such as XSS.
     patterns:
       - pattern-either:
           - pattern: |-
@@ -15,7 +14,7 @@ rules:
           - pattern: wp_kses(..., [..., "$HTML_TAG" => [...], ...] , ...);
       - metavariable-regex:
           metavariable: $HTML_TAG
-          regex: (param|base|object|iframe|script|embed|meta|link|animate|color-profile|cursor|discard|font-.*|foreignobject|hatch.*|mesh.*|missing-glyph|set|solidcolor|unknown|use|maction|maligngroup|malignmark|mlongdiv|mscarries|mscarry|msgroup|mstack|msline|msrow|semantics|annotation|annotation-xml|mprescripts|none)
+          regex: (param|base|script|animate|set|use)
     metadata:
       category: security
       confidence: MEDIUM

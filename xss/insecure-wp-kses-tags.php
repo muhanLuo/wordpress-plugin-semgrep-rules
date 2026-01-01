@@ -9,7 +9,7 @@ $allowed_tags = array(
 					'xmlns'       => true,
 					'xmlns:xlink' => true,
 				),
-				'iframe'   => array(),
+				'base'   => array(),
 				'symbol' => array(
 					'id'      => true,
 					'viewbox' => true,
