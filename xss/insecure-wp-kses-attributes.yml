@@ -3,7 +3,7 @@ rules:
     languages:
       - php
     severity: WARNING
-    message: Insecure usage of wp_kses(). Certain attributes are allowed which could lead to client-side security issues.
+    message: Insecure usage of wp_kses(). Certain attributes are allowed which could lead to XSS.
     patterns:
       - pattern-either:
           - pattern: >
