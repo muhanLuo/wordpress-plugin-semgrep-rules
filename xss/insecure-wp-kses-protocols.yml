@@ -10,7 +10,7 @@ rules:
           - pattern: >
               $ALLOWED_PROTOCOLS = [..., "javascript", ...];
               ...
-              wp_kses(..., ...,$ALLOWED_PROTOCOLS);
+              wp_kses(..., ..., $ALLOWED_PROTOCOLS);
           # Attributes are passed directly in the argument
           - pattern: >
               wp_kses(..., ..., [..., "javascript", ...]);

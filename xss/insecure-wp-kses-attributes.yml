@@ -8,13 +8,15 @@ rules:
       - pattern-either:
           - pattern: >
               $ALLOWED_HTML = [..., "$HTML_TAG" => [..., '$ATTRIBUTE' => $VAL,
-              ...], ...]; ... wp_kses(..., $ALLOWED_HTML, ...);
+              ...], ...]; 
+              ... 
+              wp_kses(..., $ALLOWED_HTML, ...);
           - pattern: >
               wp_kses(..., [..., "$HTML_TAG" => [..., '$ATTRIBUTE' => $VAL,
               ...], ...] , ...);
       - metavariable-regex:
           metavariable: $ATTRIBUTE
-          regex: (on.*|content|charset|http-equiv|from|to|xlink:href)
+          regex: (on.*|http-equiv|from|to|xlink:href)
     metadata:
       category: security
       confidence: MEDIUM
