@@ -12,7 +12,7 @@ Through Secure Coding Best Practices](https://www.wordfence.com/wp-content/uploa
 ### Missing Authorization
 
 1. **``wp-hook-missing-auth-*``**
-    - Finds callback functions that don't use ``current_user_can()`` in their function body. These rules only focus on callbacks called by ``add_action()`` and only if the hook name passes the following regex ``(wp_ajax_.*|admin_init|admin_post_.*|admin_action_.*|profile_update|personal_options_update|admin_menu)``.
+    - Finds callback functions that don't use ``current_user_can()`` in their function body. These rules only focus on callbacks called by ``add_action()`` and only if the hook name passes the following regex ``(wp_ajax_.*|admin_init|admin_post_.*|admin_action_.*|profile_update|personal_options_update)``.
     - More Info: [(Pages 5-11 of this document)](https://www.wordfence.com/wp-content/uploads/2021/07/Common-WordPress-Vulnerabilities-and-Prevention-Through-Secure-Coding-Best-Practices.pdf)
 2. **``wp-return-true-register-rest-route``**
     - Finds  uses of ``register_rest_route()`` uses where ``'permission_callback' => '__return_true'``.
@@ -25,10 +25,6 @@ Through Secure Coding Best Practices](https://www.wordfence.com/wp-content/uploa
     - More Info: [(Pages 12-14 of this document)](https://www.wordfence.com/wp-content/uploads/2021/07/Common-WordPress-Vulnerabilities-and-Prevention-Through-Secure-Coding-Best-Practices.pdf)
 
 ### Cross-site Scripting (XSS)
-
-1. **``insecure-wp-kses-*``**
-    - Finds insecure usages of ``wp_kses()``, which is an HTML purifier.
-    - More info: [WP-KAMA](https://wp-kama.com/function/wp_kses)
 
 ### Misc
 
