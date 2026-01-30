@@ -1,0 +1,61 @@
+rules:
+- id: wp-reflected-xss
+  mode: taint
+  message: Echoing of data from the URL query may indicate a XSS vulnerability.
+  languages: [php]
+  severity: ERROR
+  pattern-sources:
+  - pattern: $_REQUEST
+  - pattern: $_GET
+  pattern-sinks:
+  - pattern: echo (...);
+  - pattern: print (...);
+  - pattern: printf(...);
+  - pattern: sprintf(...);
+  - pattern: die(...);
+  - pattern: wp_die(...);
+  pattern-sanitizers:
+  - pattern: htmlentities(...)
+  - pattern: htmlspecialchars(...)
+  - pattern: strip_tags(...)
+  - pattern: isset(...)
+  - pattern: empty(...)
+  # Wordpress Escapes and Sanitizers
+  - pattern: esc_url(...)
+  - pattern: esc_html(...)
+  - pattern: esc_attr(...)
+  - pattern: esc_textarea(...)
+  - pattern: esc_js(...)
+  - pattern: sanitize_text_field(...)
+  - pattern: sanitize_title(...)
+  - pattern: sanitize_url(...)
+  - pattern: sanitize_file_name(...)
+  - pattern: sanitize_email(...)
+  - pattern: tag_escape(...)
+  - pattern: wp_kses(...)
+  metadata:
+    technology:
+    - php
+    cwe:
+    - "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+    owasp:
+    - A07:2017 - Cross-Site Scripting (XSS)
+    - A03:2021 - Injection
+    - A05:2025 - Injection
+    category: security
+    references:
+    - https://www.wordfence.com/blog/2024/09/how-to-find-xss-cross-site-scripting-vulnerabilities-in-wordpress-plugins-and-themes/
+    - https://www.wordfence.com/learn/how-to-prevent-cross-site-scripting-attacks/
+    - https://github.com/semgrep/semgrep-rules/blob/release/php/lang/security/injection/echoed-request.yaml
+    - https://www.php.net/manual/en/function.htmlentities.php
+    - https://www.php.net/manual/en/reserved.variables.request.php
+    - https://www.php.net/manual/en/reserved.variables.post.php
+    - https://www.php.net/manual/en/reserved.variables.get.php
+    - https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
+    cwe2022-top25: true
+    cwe2021-top25: true
+    subcategory:
+    - vuln
+    likelihood: MEDIUM
+    impact: MEDIUM
+    confidence: MEDIUM
