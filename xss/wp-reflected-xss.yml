@@ -7,10 +7,14 @@ rules:
   # Enable options below if you have Semgrep Pro to reduce false positives
   # options:
   # - taint_assume_safe_numbers: true
-  # - taint_assume_safe_numbers: true
+  # - taint_assume_safe_booleans: true
   pattern-sources:
-  - pattern: $_REQUEST
-  - pattern: $_GET
+    - patterns:
+      - pattern: $_REQUEST[$KEY]
+      - pattern-not-inside: (int) $_REQUEST[$KEY]
+    - patterns:
+      - pattern: $_GET[$KEY]
+      - pattern-not-inside: (int) $_GET[$KEY]
   pattern-sinks:
   - pattern: echo (...);
   - pattern: print (...);
@@ -23,7 +27,7 @@ rules:
       - pattern: $SANITIZER(...)
       - metavariable-regex:
           metavariable: $SANITIZER
-          regex: (htmlentities|htmlspecialchars|strip_tags|intval|absint|empty|isset|esc.*|.*sanitize.*|.*escape.*|wp_kses.*)
+          regex: (htmlentities|htmlspecialchars|strip_tags|intval|absint|empty|isset|.*esc_.*|.*sanitize.*|.*escape.*|wp_kses.*)
   metadata:
     technology:
     - php

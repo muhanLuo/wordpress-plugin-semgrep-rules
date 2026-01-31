@@ -114,6 +114,11 @@ function doOK8() {
     echo "Hello ".random_func($_GET['name'])." !";
     // ok: wp-reflected-xss
     echo "Hello ".esc_url_raw(random_func($_GET['name']))." !";
+    $post_id = $_REQUEST['pid'];
+    // ok: wp-reflected-xss
+    printf('Invalid Post ID (#%s).', 'wp-postratings', absint($post_id));
+    // ok: wp-reflected-xss
+    echo (int) $_GET['id'];
 }
 
 function doOK9() {
