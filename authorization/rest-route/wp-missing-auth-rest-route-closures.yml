@@ -1,5 +1,5 @@
 rules:
-  - id: wp-missing-auth-single-rest-route-closures
+  - id: wp-missing-auth-rest-route-closures
     languages:
       - php
     severity: INFO

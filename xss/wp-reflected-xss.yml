@@ -1,9 +1,13 @@
 rules:
 - id: wp-reflected-xss
   mode: taint
-  message: Echoing of data from the URL query may indicate a XSS vulnerability.
+  message: Echoing of user input from the URL query may indicate a reflected XSS vulnerability.
   languages: [php]
-  severity: ERROR
+  severity: WARNING
+  # Enable options below if you have Semgrep Pro to reduce false positives
+  # options:
+  # - taint_assume_safe_numbers: true
+  # - taint_assume_safe_numbers: true
   pattern-sources:
   - pattern: $_REQUEST
   - pattern: $_GET
@@ -15,24 +19,11 @@ rules:
   - pattern: die(...);
   - pattern: wp_die(...);
   pattern-sanitizers:
-  - pattern: htmlentities(...)
-  - pattern: htmlspecialchars(...)
-  - pattern: strip_tags(...)
-  - pattern: isset(...)
-  - pattern: empty(...)
-  # Wordpress Escapes and Sanitizers
-  - pattern: esc_url(...)
-  - pattern: esc_html(...)
-  - pattern: esc_attr(...)
-  - pattern: esc_textarea(...)
-  - pattern: esc_js(...)
-  - pattern: sanitize_text_field(...)
-  - pattern: sanitize_title(...)
-  - pattern: sanitize_url(...)
-  - pattern: sanitize_file_name(...)
-  - pattern: sanitize_email(...)
-  - pattern: tag_escape(...)
-  - pattern: wp_kses(...)
+    - patterns:
+      - pattern: $SANITIZER(...)
+      - metavariable-regex:
+          metavariable: $SANITIZER
+          regex: (htmlentities|htmlspecialchars|strip_tags|intval|absint|empty|isset|esc.*|.*sanitize.*|.*escape.*|wp_kses.*)
   metadata:
     technology:
     - php

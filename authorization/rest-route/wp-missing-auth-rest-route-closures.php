@@ -1,6 +1,6 @@
 <?php
 
-// ruleid: wp-missing-auth-single-rest-route-closures
+// ruleid: wp-missing-auth-rest-route-closures
 register_rest_route( 'get_post', 'posts/(?P<id>\d+)', array(
         'methods'    => 'GET',
         'callback'   => array($this, 'get_post'),
@@ -9,7 +9,7 @@ register_rest_route( 'get_post', 'posts/(?P<id>\d+)', array(
         }
 ));
 
-// ok: wp-missing-auth-single-rest-route-closures
+// ok: wp-missing-auth-rest-route-closures
 register_rest_route(
 		'api/v3',
 		'/search',
@@ -22,7 +22,7 @@ register_rest_route(
 		]
 	);
 
-// ruleid: wp-missing-auth-single-rest-route-closures
+// ruleid: wp-missing-auth-rest-route-closures
 register_rest_route(
 		'api/v3',
 		'/search',
@@ -35,7 +35,7 @@ register_rest_route(
 		]
 	);
 
-// ok: wp-missing-auth-single-rest-route-closures
+// ok: wp-missing-auth-rest-route-closures
 register_rest_route(
 		'api',
 		'/edit',

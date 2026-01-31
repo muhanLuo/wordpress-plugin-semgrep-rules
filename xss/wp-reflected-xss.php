@@ -109,12 +109,18 @@ function doOK7() {
 
 function doOK8() {
     // ok: wp-reflected-xss
-    echo "Hello ".isset($_GET['name'])." !";
+    echo "Hello ".custom_sanitizer_function($_GET['name'])." !";
+    // ruleid: wp-reflected-xss
+    echo "Hello ".random_func($_GET['name'])." !";
+    // ok: wp-reflected-xss
+    echo "Hello ".esc_url_raw(random_func($_GET['name']))." !";
 }
 
 function doOK9() {
-    $safevar = empty($_GET['name']);
+    $safevar = custom_escape_function($_GET['name']);
     // ok: wp-reflected-xss
     echo "Hello $safevar !";
+    // ruleid: wp-reflected-xss
+    echo "Yo" . $_GET['name'];
 }
 
