@@ -16,41 +16,41 @@ rules:
       - pattern: $_GET[$KEY]
       - pattern-not-inside: (int) $_GET[$KEY]
   pattern-sinks:
-  - pattern: echo (...);
-  - pattern: print (...);
-  - pattern: printf(...);
-  - pattern: sprintf(...);
-  - pattern: die(...);
-  - pattern: wp_die(...);
+    - pattern: echo (...);
+    - pattern: print (...);
+    - pattern: printf(...);
+    - pattern: sprintf(...);
+    - pattern: die(...);
+    - pattern: wp_die(...);
   pattern-sanitizers:
     - patterns:
       - pattern: $SANITIZER(...)
       - metavariable-regex:
           metavariable: $SANITIZER
-          regex: (htmlentities|htmlspecialchars|strip_tags|intval|absint|empty|isset|.*esc_.*|.*sanitize.*|.*escape.*|wp_kses.*)
+          regex: (htmlentities|htmlspecialchars|strip_tags|intval|absint|floatval|empty|isset|esc_.*|.*sanitize.*|.*escape.*|wp_kses.*)
   metadata:
     technology:
-    - php
+      - php
     cwe:
-    - "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      - "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
     owasp:
-    - A07:2017 - Cross-Site Scripting (XSS)
-    - A03:2021 - Injection
-    - A05:2025 - Injection
+      - A07:2017 - Cross-Site Scripting (XSS)
+      - A03:2021 - Injection
+      - A05:2025 - Injection
     category: security
     references:
-    - https://www.wordfence.com/blog/2024/09/how-to-find-xss-cross-site-scripting-vulnerabilities-in-wordpress-plugins-and-themes/
-    - https://www.wordfence.com/learn/how-to-prevent-cross-site-scripting-attacks/
-    - https://github.com/semgrep/semgrep-rules/blob/release/php/lang/security/injection/echoed-request.yaml
-    - https://www.php.net/manual/en/function.htmlentities.php
-    - https://www.php.net/manual/en/reserved.variables.request.php
-    - https://www.php.net/manual/en/reserved.variables.post.php
-    - https://www.php.net/manual/en/reserved.variables.get.php
-    - https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
+      - https://www.wordfence.com/blog/2024/09/how-to-find-xss-cross-site-scripting-vulnerabilities-in-wordpress-plugins-and-themes/
+      - https://www.wordfence.com/learn/how-to-prevent-cross-site-scripting-attacks/
+      - https://github.com/semgrep/semgrep-rules/blob/release/php/lang/security/injection/echoed-request.yaml
+      - https://www.php.net/manual/en/function.htmlentities.php
+      - https://www.php.net/manual/en/reserved.variables.request.php
+      - https://www.php.net/manual/en/reserved.variables.post.php
+      - https://www.php.net/manual/en/reserved.variables.get.php
+      - https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
     cwe2022-top25: true
     cwe2021-top25: true
     subcategory:
-    - vuln
+      - vuln
     likelihood: MEDIUM
     impact: MEDIUM
     confidence: MEDIUM

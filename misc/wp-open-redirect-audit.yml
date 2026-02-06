@@ -1,0 +1,35 @@
+rules:
+- id: wp-open-redirect-audit
+  mode: taint
+  message: This function can be used to redirect to user supplied URLs. If user
+      input is not sanitised or validated, this could lead to Open Redirect
+      vulnerabilities. Use "wp_safe_redirect()" to prevent this kind of attack.
+  languages: [php]
+  severity: WARNING
+  # Enable options below if you have Semgrep Pro to reduce false positives
+  # options:
+  # - interfile: true
+  pattern-sources:
+    - pattern: $_REQUEST
+    - pattern: $_GET
+  pattern-sinks:
+    - pattern: wp_redirect(...)
+  metadata:
+    technology:
+      - php
+    cwe:
+      - "CWE-502: Deserialization of Untrusted Data"
+    owasp:
+      - A03:2021 - Injection
+      - A05:2025 - Injection
+    category: security
+    references:
+      - https://github.com/wpscanteam/wpscan/wiki/WordPress-Plugin-Security-Testing-Cheat-Sheet#php-object-injection
+      - https://owasp.org/www-community/vulnerabilities/PHP_Object_Injection
+    cwe2022-top25: true
+    cwe2021-top25: true
+    subcategory:
+      - vuln
+    likelihood: MEDIUM
+    impact: MEDIUM
+    confidence: HIGH
