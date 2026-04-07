@@ -6,14 +6,14 @@ class ClassTests {
         add_action('wp_ajax_mk_file_manager_backup', array(&$this, 'mk_file_manager_backup_callback'));
     }
 
-    // ruleid: wp-pro-missing-auth
+    // ruleid: wp-ajax-hook-missing-auth
     public function no_current_user_can() {
 		echo "HELLO";
         current_user_can("read");
 		return 5;
 	}
 
-    // ok: wp-pro-missing-auth
+    // ok: wp-ajax-hook-missing-auth
 	public function has_current_user_can() {
 		echo "HELLO";
         if (1 > 5)
@@ -33,7 +33,7 @@ class ClassTests {
 		add_action( 'admin_action_write', [ $this, 'after_current_user_can' ], 1, 2);   
     }
 
-    // ruleid: wp-pro-missing-auth
+    // ruleid: wp-ajax-hook-missing-auth
 	public function after_no_current_user_can() {
 		echo "HELLO";
         current_user_can("write");
@@ -43,7 +43,7 @@ class ClassTests {
 		return 5;
 	}
 
-    // ok: wp-pro-missing-auth
+    // ok: wp-ajax-hook-missing-auth
     public function after_current_user_can() {
 		echo "HELLO";
         if (5 == 5 and 7 == 7) {
@@ -56,7 +56,7 @@ class ClassTests {
 		return 5;
 	}
 
-    // ok: wp-pro-missing-auth
+    // ok: wp-ajax-hook-missing-auth
     public function mk_file_manager_backup_callback() {
             
         $nonce = sanitize_text_field( $_POST['nonce'] );
@@ -71,7 +71,7 @@ class ClassTests {
     }
 }
 
-// ok: wp-pro-missing-auth
+// ok: wp-ajax-hook-missing-auth
 function auth_before() {
 	echo "HELLO";
     for ($x = 0; $x <= 100; $x+=10) {
@@ -83,7 +83,7 @@ function auth_before() {
 	echo "BYE";
 }
 
-// ok: wp-pro-missing-auth
+// ok: wp-ajax-hook-missing-auth
 function auth_before2() {
 	echo "HELLO";
     for ($x = 0; $x <= 100; $x+=10) {
@@ -99,7 +99,7 @@ function auth_before2() {
 	echo "BYE";
 }
 
-// ruleid: wp-pro-missing-auth
+// ruleid: wp-ajax-hook-missing-auth
 function no_auth_before() {
 	echo "HELLO";
     current_user_can("blabla");
@@ -113,7 +113,7 @@ add_action( 'wp_ajax_test3', 'auth_after', 3);
 add_action( 'wp_ajax_test4', 'no_auth_after', 1);
 add_action( 'unimportant_hook5', 'no_auth_after', 5);
 
-// ok: wp-pro-missing-auth
+// ok: wp-ajax-hook-missing-auth
 function auth_after() {
 	echo "HELLO";
     if ("apple" == "orange") {
@@ -129,7 +129,7 @@ function auth_after() {
 	echo "BYE";
 }
 
-// ruleid: wp-pro-missing-auth
+// ruleid: wp-ajax-hook-missing-auth
 function no_auth_after() {
 	echo "HELLO";
     current_user_can("blabla");
@@ -139,7 +139,7 @@ function no_auth_after() {
 
 class ClassTestsCSRF {
 
-    // ok: wp-pro-missing-auth
+    // ok: wp-ajax-hook-missing-auth
     public function delete_callback($i){
         
         if ($i == 5) {
@@ -150,7 +150,7 @@ class ClassTestsCSRF {
         echo "RANDOM TEXT";
     }
 
-    // ok: wp-pro-missing-auth
+    // ok: wp-ajax-hook-missing-auth
     public function load_page($i){
         
         if ($i == 5) {
@@ -160,7 +160,7 @@ class ClassTestsCSRF {
         echo "RANDOM TEXT";
     }
 
-    // ruleid: wp-pro-missing-auth
+    // ruleid: wp-ajax-hook-missing-auth
     public function return_file($file){
         echo $file;
         return 5 == 5;
@@ -172,7 +172,7 @@ class ClassTestsCSRF {
         add_action('admin_menu', array(&$this, 'admin_menu_callback'));
     }
 
-    // ok: wp-pro-missing-auth
+    // ok: wp-ajax-hook-missing-auth
     public function api_init2()
     {
         add_action('admin_action_delete', array(&$this, 'delete_callback'));
@@ -180,7 +180,7 @@ class ClassTestsCSRF {
         add_action('wp_ajax_return_file', array(&$this, 'return_file'));
     }
 
-    // ok: wp-pro-missing-auth
+    // ok: wp-ajax-hook-missing-auth
     public function admin_menu_callback($nonce){
             
             wp_verify_nonce( $nonce, 'wpfmbackup');
@@ -205,7 +205,7 @@ class ClassTestsCSRF {
 
 }
 
-// ok: wp-pro-missing-auth
+// ok: wp-ajax-hook-missing-auth
 function csrf_before() {
 	echo "HELLO";
     for ($x = 0; $x <= 100; $x+=10) {
@@ -217,7 +217,7 @@ function csrf_before() {
 	echo "BYE";
 }
 
-// ok: wp-pro-missing-auth
+// ok: wp-ajax-hook-missing-auth
 function csrf_before2() {
 	echo "HELLO";
     for ($x = 0; $x <= 100; $x+=10) {
@@ -233,14 +233,14 @@ function csrf_before2() {
 	echo "BYE";
 }
 
-// ruleid: wp-pro-missing-auth
+// ruleid: wp-ajax-hook-missing-auth
 function no_csrf_before() {
 	echo "HELLO";
     wp_verify_nonce("blabla");
 	echo "BYE";
 }
 
-// ok: wp-pro-missing-auth
+// ok: wp-ajax-hook-missing-auth
 function yes_csrf_before() {
 	echo "HELLO";
     check_admin_referer("blabla");
@@ -259,7 +259,7 @@ add_action( 'wp_ajax_test12', 'yes_csrf_after');
 add_action( 'admin_action_123', 'yes_csrf_after2');
 add_action( 'unimportant_hook5', 'no_csrf_after', 5);
 
-// ok: wp-pro-missing-auth
+// ok: wp-ajax-hook-missing-auth
 function csrf_after() {
 	echo "HELLO";
     if ("apple" == "orange") {
@@ -275,21 +275,21 @@ function csrf_after() {
 	echo "BYE";
 }
 
-// ruleid: wp-pro-missing-auth
+// ruleid: wp-ajax-hook-missing-auth
 function no_csrf_after() {
 	echo "HELLO";
     wp_verify_nonce("blabla");
 	echo "BYE";
 }
 
-// ok: wp-pro-missing-auth
+// ok: wp-ajax-hook-missing-auth
 function yes_csrf_after() {
 	echo "HELLO";
     check_admin_referer("blabla");
 	echo "BYE";
 }
 
-// ok: wp-pro-missing-auth
+// ok: wp-ajax-hook-missing-auth
 function yes_csrf_after2() {
 	echo "HELLO";
     if (1 == 1)
@@ -299,7 +299,7 @@ function yes_csrf_after2() {
 	echo "BYE";
 }
 
-// ok: wp-pro-missing-auth
+// ok: wp-ajax-hook-missing-auth
 function never_called($var)
 {
     return 1;

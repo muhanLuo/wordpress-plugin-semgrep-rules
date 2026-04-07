@@ -15,10 +15,14 @@ $import_options = maybe_unserialize($cookie);
 $data = serialize($cookie);
 
 // ok: wp-php-object-injection-audit
-unserialize( $_POST["data"], ['allowed_classes' => false] );
+unserialize( $_REQUEST["data"], ['allowed_classes' => false] );
 
 
 $post_id = get_post(intval($_POST["id"])); 
 // ok: wp-php-object-injection-audit
 $post_info = maybe_unserialize($post_id);
+
+$order_id = (int) $_POST["id"];
+// ok: wp-php-object-injection-audit
+$order_info = unserialize(get_order($post_id));
 ?>

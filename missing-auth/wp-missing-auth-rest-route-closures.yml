@@ -2,8 +2,8 @@ rules:
   - id: wp-missing-auth-rest-route-closures
     languages:
       - php
-    severity: INFO
-    message: Usage of register_rest_route() where 'permission_callback' is set to a function which does not use current_user_can()
+    severity: MEDIUM
+    message: Usage of register_rest_route() where the callback called by 'permission_callback' does not perform a capability check with current_user_can(). Could indicate an authorization bypass. 
     patterns:
       - pattern: register_rest_route(..., ..., [..., 'permission_callback' =>
           function(...) { ... } , ...], ...)
@@ -11,7 +11,7 @@ rules:
           register_rest_route(..., ..., [..., 'permission_callback' =>
           function(...) {
              ...
-             return current_user_can(...);
+             current_user_can(...);
              ... 
              } , ...], ...)
       - pattern-not: >-
@@ -33,6 +33,7 @@ rules:
         - audit
       technology:
         - Wordpress Plugins
+        - php
       references:
         - (Page 8)
           https://www.wordfence.com/wp-content/uploads/2021/07/Common-WordPress-Vulnerabilities-and-Prevention-Through-Secure-Coding-Best-Practices.pdf

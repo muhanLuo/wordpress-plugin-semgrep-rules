@@ -6,9 +6,11 @@ rules:
       vulnerabilities. Use "wp_safe_redirect()" to prevent this kind of attack.
   languages: [php]
   severity: WARNING
-  # Enable options below if you have Semgrep Pro to reduce false positives
-  # options:
-  # - interfile: true
+  options:
+    taint_assume_safe_numbers: true
+    taint_assume_safe_booleans: true
+    # taint_assume_safe_functions: true # Can be enabled if you want to assume that function calls essentially sanitize the input (More info: https://semgrep.dev/docs/writing-rules/data-flow/taint-mode/advanced#minimize-false-positives)
+    # interfile: true # Does cross-file analysis (More info: https://semgrep.dev/docs/semgrep-code/semgrep-pro-engine-intro)
   pattern-sources:
     - pattern: $_REQUEST
     - pattern: $_GET
@@ -18,18 +20,14 @@ rules:
     technology:
       - php
     cwe:
-      - "CWE-502: Deserialization of Untrusted Data"
-    owasp:
-      - A03:2021 - Injection
-      - A05:2025 - Injection
+      - "CWE-601: URL Redirection to Untrusted Site ('Open Redirect')"
     category: security
     references:
-      - https://github.com/wpscanteam/wpscan/wiki/WordPress-Plugin-Security-Testing-Cheat-Sheet#php-object-injection
-      - https://owasp.org/www-community/vulnerabilities/PHP_Object_Injection
-    cwe2022-top25: true
-    cwe2021-top25: true
+      - https://github.com/wpscanteam/wpscan/wiki/WordPress-Plugin-Security-Testing-Cheat-Sheet#open-redirect
+      - https://developer.wordpress.org/reference/functions/wp_redirect/
+      - https://developer.wordpress.org/reference/functions/wp_safe_redirect/
     subcategory:
       - vuln
     likelihood: MEDIUM
-    impact: MEDIUM
-    confidence: HIGH
+    impact: LOW
+    confidence: MEDIUM

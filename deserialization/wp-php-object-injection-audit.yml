@@ -1,16 +1,15 @@
 rules:
 - id: wp-php-object-injection-audit
   mode: taint
-  message: If the data used inside the patterns are directly used without proper
-      sanitization, then this could lead to PHP Object Injection. Do not use
-      these function with user-supplied input, use JSON functions instead.
+  message: If the data used inside the patterns are directly passed to unserialize() or maybe_unserialize(), it could lead to PHP Object injection vulnerabilities. Do not use
+      these function with user-supplied input, use JSON functions to serialize/deserialize instead.
   languages: [php]
   severity: WARNING
-  # Enable options below if you have Semgrep Pro to reduce false positives
-  # options:
-  # - interfile: true
-  # - taint_assume_safe_numbers: true
-  # - taint_assume_safe_booleans: true
+  options:
+    taint_assume_safe_numbers: true
+    taint_assume_safe_booleans: true
+    # taint_assume_safe_functions: true # Can be enabled if you want to assume that function calls essentially sanitize the input (More info: https://semgrep.dev/docs/writing-rules/data-flow/taint-mode/advanced#minimize-false-positives)
+    # interfile: true # Does cross-file analysis (More info: https://semgrep.dev/docs/semgrep-code/semgrep-pro-engine-intro)
   pattern-sources:
     - pattern: $_REQUEST
     - pattern: $_GET
@@ -43,10 +42,8 @@ rules:
       - https://patchstack.com/academy/wordpress/securing-code/php-object-injection/
       - https://github.com/wpscanteam/wpscan/wiki/WordPress-Plugin-Security-Testing-Cheat-Sheet#php-object-injection
       - https://owasp.org/www-community/vulnerabilities/PHP_Object_Injection
-    cwe2022-top25: true
-    cwe2021-top25: true
     subcategory:
       - vuln
     likelihood: MEDIUM
     impact: MEDIUM
-    confidence: HIGH
+    confidence: MEDIUM

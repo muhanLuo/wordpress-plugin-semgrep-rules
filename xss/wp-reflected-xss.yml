@@ -3,18 +3,15 @@ rules:
   mode: taint
   message: Echoing of user input from the URL query may indicate a reflected XSS vulnerability.
   languages: [php]
-  severity: WARNING
-  # Enable options below if you have Semgrep Pro to reduce false positives
-  # options:
-  # - taint_assume_safe_numbers: true
-  # - taint_assume_safe_booleans: true
+  severity: HIGH
+  options:
+    taint_assume_safe_numbers: true
+    taint_assume_safe_booleans: true
+    # taint_assume_safe_functions: true # Can be enabled if you want to assume that function calls essentially sanitize the input (More info: https://semgrep.dev/docs/writing-rules/data-flow/taint-mode/advanced#minimize-false-positives)
+    # interfile: true # Does cross-file analysis (More info: https://semgrep.dev/docs/semgrep-code/semgrep-pro-engine-intro)
   pattern-sources:
-    - patterns:
-      - pattern: $_REQUEST[$KEY]
-      - pattern-not-inside: (int) $_REQUEST[$KEY]
-    - patterns:
-      - pattern: $_GET[$KEY]
-      - pattern-not-inside: (int) $_GET[$KEY]
+    - pattern: $_REQUEST
+    - pattern: $_GET
   pattern-sinks:
     - pattern: echo (...);
     - pattern: print (...);
@@ -30,6 +27,7 @@ rules:
           regex: (htmlentities|htmlspecialchars|strip_tags|intval|absint|floatval|empty|isset|esc_.*|.*sanitize.*|.*escape.*|wp_kses.*)
   metadata:
     technology:
+      - Wordpress Plugins
       - php
     cwe:
       - "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
@@ -41,11 +39,6 @@ rules:
     references:
       - https://www.wordfence.com/blog/2024/09/how-to-find-xss-cross-site-scripting-vulnerabilities-in-wordpress-plugins-and-themes/
       - https://www.wordfence.com/learn/how-to-prevent-cross-site-scripting-attacks/
-      - https://github.com/semgrep/semgrep-rules/blob/release/php/lang/security/injection/echoed-request.yaml
-      - https://www.php.net/manual/en/function.htmlentities.php
-      - https://www.php.net/manual/en/reserved.variables.request.php
-      - https://www.php.net/manual/en/reserved.variables.post.php
-      - https://www.php.net/manual/en/reserved.variables.get.php
       - https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
     cwe2022-top25: true
     cwe2021-top25: true

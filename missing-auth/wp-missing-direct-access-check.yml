@@ -2,17 +2,17 @@ rules:
   - id: wp-missing-direct-access-check
     languages:
       - php
-    severity: INFO
-    message: This PHP file did not include a check for direct access. This means that a user could navigate to this file directly and access it, which can lead to server-side errors and data leaks.
+    severity: LOW
+    message: This PHP file did not include a check for direct access. This means that a user could navigate to this file directly, which can lead to server-side errors and data leaks.
     patterns:
       - pattern-regex: (?s)\A.*\Z
       - pattern-not-regex: 
           "defined\\(.*(ABSPATH|WPINC|WP_CONTENT_DIR|WP_PLUGIN_DIR).*\\)"
     metadata:
       category: security
-      confidence: LOW
+      confidence: HIGH
       likelihood: MEDIUM
-      impact: MEDIUM
+      impact: LOW
       subcategory:
         - audit
       technology:

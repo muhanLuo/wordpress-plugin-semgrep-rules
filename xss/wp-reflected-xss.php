@@ -122,10 +122,10 @@ function doOK8() {
 }
 
 function doOK9() {
-    $safevar = custom_escape_function($_GET['name']);
+    $safevar = (int) $_GET['id'];
     // ok: wp-reflected-xss
     echo "Hello $safevar !";
     // ruleid: wp-reflected-xss
-    echo "Yo" . $_GET['name'];
+    echo "Yo" . $_GET['id'];
 }
 
