@@ -16,6 +16,7 @@ rules:
     - pattern: $_GET
   pattern-sinks:
     - pattern: wp_redirect(...)
+    - pattern: header(...)
   metadata:
     technology:
       - php
@@ -23,7 +24,7 @@ rules:
       - "CWE-601: URL Redirection to Untrusted Site ('Open Redirect')"
     category: security
     references:
-      - https://github.com/wpscanteam/wpscan/wiki/WordPress-Plugin-Security-Testing-Cheat-Sheet#open-redirect
+      - https://patchstack.com/academy/wordpress/vulnerabilities/open-redirect/
       - https://developer.wordpress.org/reference/functions/wp_redirect/
       - https://developer.wordpress.org/reference/functions/wp_safe_redirect/
     subcategory:

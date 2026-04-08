@@ -1,6 +1,8 @@
 # IMPORANT NOTE
 # You must run "semgrep login" in order to run this rule
-# 'join mode' is unavailable if you're not logged in
+# 'join mode' is an experimental feature and unavailable if you're not logged in
+
+# Side note: Don't run this rule on too many plugins at once, this rule seems to use a lot of memory. In my experience, running this rule on too many plugins (a couple hundred) can cause your computer to crash.
 rules:
 - id: wp-ajax-hook-missing-auth
   mode: join
@@ -61,6 +63,7 @@ rules:
       - Improper Authorization
     category: security
     references:
+      - https://www.wordfence.com/blog/2023/02/authorization-vs-intent-why-you-should-always-verify-both/
       - https://www.wordfence.com/wp-content/uploads/2021/07/Common-WordPress-Vulnerabilities-and-Prevention-Through-Secure-Coding-Best-Practices.pdf (Pages 5-11)
     subcategory:
       - vuln

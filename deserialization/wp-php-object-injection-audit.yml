@@ -18,6 +18,7 @@ rules:
     - pattern: $_FILES
     - pattern: $_SERVER
     - pattern: $_SESSION
+    - pattern: file_get_contents('php://input')
   pattern-sinks:
     - patterns:
       - pattern: unserialize(...)
